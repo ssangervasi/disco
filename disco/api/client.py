@@ -289,6 +289,8 @@ class APIClient(LoggingClass):
         r = self.http(Routes.GUILDS_DELETE, dict(guild=guild))
         return Guild.create(self.client, r.json())
 
+    # PATCH(ssangervasi)
+    # HashMap of Channel.id => Channel
     def guilds_channels_list(self, guild):
         r = self.http(Routes.GUILDS_CHANNELS_LIST, dict(guild=guild))
         return Channel.create_hash(self.client, 'id', r.json(), guild_id=guild)
@@ -506,6 +508,12 @@ class APIClient(LoggingClass):
 
     def users_me_guilds_delete(self, guild):
         self.http(Routes.USERS_ME_GUILDS_DELETE, dict(guild=guild))
+
+    # PATCH(ssangervasi)
+    # HashMap of Guild.id => Guild
+    def users_me_guilds_list(self):
+        r = self.http(Routes.USERS_ME_GUILDS_LIST)
+        return Guild.create_hash(self.client, 'id', r.json())
 
     def users_me_dms_create(self, recipient_id):
         r = self.http(Routes.USERS_ME_DMS_CREATE, json={
